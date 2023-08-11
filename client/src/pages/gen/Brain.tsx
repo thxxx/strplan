@@ -32,7 +32,7 @@ const Brain = () => {
         />
       </div>
       <div className={style.inner}>
-        <p>선택한 키워드</p>
+        <p>선택한 키워드 ( 클릭해서 삭제 )</p>
         <div>
           {chosenKeywords?.map((item) => {
             return (
@@ -76,7 +76,7 @@ const Brain = () => {
             }}
             className={style.reset}
           >
-            다른 이야기 찾기
+            다른 키워드 찾기
           </button>
         </div>
       </div>

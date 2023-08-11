@@ -5,11 +5,17 @@
   font-size: 15px;
   outline: none;
   resize: none;
+  width:100%;
+}
+
+.rewriteContainer{
+  margin-top:10px;
+  position:relative;
 }
 
 .rewrite_area {
   border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  border-radius: 4px;
   padding: 12px;
   font-size: 15px;
   outline: none;
@@ -19,8 +25,8 @@
 
 .rewrite_button {
   position: absolute;
-  right: 0px;
-  top: 10px;
+  right: -10px;
+  top: 14px;
   background: rgba(0, 0, 80, 1);
   color: white;
   border: none;
@@ -29,4 +35,48 @@
   cursor: pointer;
   text-align: center;
   display: inline;
+}
+
+.listTable{
+  display: flex;
+  flex-direction: column;
+  padding:5px 10px;
+}
+
+.listInner{
+  flex-direction: row;
+  padding:12px 0px;
+  width:100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tableElement{
+  width:calc(48% - 20px);
+  background:rgba(255,255,255,0.4);
+  padding:14px 10px;
+  margin:5px;
+}
+
+.titleContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding:5px 10px;
+  margin-top:10px;
+}
+
+.reset_button {
+  background: #EEF2F6;
+  color: #1B202B;
+  display: inline;
+  border-radius: 4px;
+  padding: 10px 14px;
+  cursor: pointer;
+  border: none;
+}
+
+.reset_button:hover{
+  background: #DEE2E6;
 }

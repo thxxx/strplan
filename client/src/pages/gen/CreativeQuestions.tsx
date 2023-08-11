@@ -1,24 +1,22 @@
 import React from 'react'
 import { questions } from '@/utils/questions'
 import style from './engine.module.css'
+import TitleContainer from '@/components/TitleContainer'
 
 const CreativeQuestions = () => {
   return (
     <div className={style.questionContainer}>
-      <div className={style.title}>
-        <p>사고를 위한 질문</p>
-        <div className={style.reset_button}>리셋</div>
-      </div>
-      <div style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
+      <TitleContainer title="사고를 위한 질문" buttonText="다른 질문 보기" onClick={() => {}} />
+      <div className={style.questionWrapper}>
         {questions.slice(0, 3).map((item) => {
           return <div className={style.question}>{item}</div>
         })}
       </div>
-      <div style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
+      {/* <div className={style.questionWrapper}>
         {questions.slice(3, 6).map((item) => {
           return <div className={style.question}>{item}</div>
         })}
-      </div>
+      </div> */}
     </div>
   )
 }

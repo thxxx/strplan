@@ -1,30 +1,61 @@
 import React, { useState } from 'react'
 import style from './engine.module.css'
 import ReWriteInput from '@/components/ReWriteInput'
+import ListTable from '@/components/ListTable'
+import { SERVER_IP } from '@/utils/store'
+import axios from 'axios'
 
 const TopicsRec = () => {
   const [isTopicRec, setIsTopicRec] = useState<boolean>(false)
+  const [prompt, setPrompt] = useState<string>('');
+  const [genTopics, setGenTopics] = useState<string[]>(["소재1", "소재2", "소재3", "소재4" ]);
+  const [storeTopics, setStoreTopics] = useState<string[][]>([]);
+
+  const reGenerate = async (typed:'re'|'first') => {
+    let response;
+
+    let body = {
+      originalList: genTopics,
+      prompt: prompt,
+      info:'',
+      type:''
+    }
+
+    if(typed !== "first"){
+      body['type'] = 're'
+      response = await axios.post(SERVER_IP + '/topic', body)
+    }else{
+      body['type'] = 'first'
+      response = await axios.post(SERVER_IP + '/topic', body)
+    }
+    if(response.status === 200){
+      console.log("response 22: ", response)
+      const lists = JSON.parse(response['data']['data'])
+      console.log("response : ", lists)
+      setGenTopics(response['data']['data']);;
+      setStoreTopics([...storeTopics, response['data']['data']]);
+      setPrompt('');
+      setIsTopicRec(true);
+    }
+  }
 
   return (
     <div className={style.questionContainer}>
       {!isTopicRec ? (
-        <div className={style.rec_button} onClick={() => setIsTopicRec(true)}>
-          위의 내용으로 가능한 소설 주제를 추천받을게요
+        <div className={style.rec_button} onClick={() => reGenerate('first')}>
+          위의 내용으로 가능한 소재를 추천받을게요
         </div>
       ) : (
         <div>
+          <ListTable title="소재 추천" el={genTopics} />
           <div>
-            <p>주제 추천</p>
+            <ReWriteInput value={prompt} onChange={(e) => setPrompt(e.currentTarget.value)} placeholder='다른 소재를 추천받고 싶나요? 원하는 내용을 입력하세요. 예시) 좀 더 자극적인 주제로 보여줘, 현실적인 내용으로 해줘 등' onClick={() => reGenerate('re')} />
           </div>
-          <div>
-            <div>주제1</div>
-            <div>주제2</div>
-            <div>주제3</div>
-            <div>주제4</div>
-          </div>
-          <div>
-            <ReWriteInput />
-          </div>
+          {
+            storeTopics.length > 1 && <div>
+
+            </div>
+          }
         </div>
       )}
     </div>

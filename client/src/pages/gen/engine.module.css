@@ -5,9 +5,18 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 10px 10px;
-  background-color: rgba(0, 0, 0, 0.05);
   min-height: 100vh;
+}
+
+.innerMain{
+  width: 90%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 10px 50px 10px;
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .gen_card {
@@ -46,10 +55,11 @@
   width: 100%;
   border-radius: 4px;
   cursor: pointer;
+  margin-top:15px;
 }
 
 .keywordTable {
-  height: 350px;
+  min-height: 390px;
 }
 
 .questionContainer {
@@ -59,27 +69,21 @@
   flex-direction: column;
 }
 
-.title {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.reset_button {
-  background: rgba(0, 0, 80, 1);
-  display: inline;
-  border-radius: 4px;
-  padding: 12px;
-  cursor: pointer;
-  color: white;
-}
-
 .question {
   width: 33%;
   max-width: 33%;
   margin: 0px 4px;
   margin-top: 20px;
+  font-size:14px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 4px;
+  padding:12px;
+}
+
+.questionWrapper{
+  display: flex;
+  flex-direction: row;
+  width:100%;
 }
 
 .rec_button {
