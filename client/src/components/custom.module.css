@@ -1,0 +1,32 @@
+.textarea {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 15px;
+  outline: none;
+  resize: none;
+}
+
+.rewrite_area {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 15px;
+  outline: none;
+  resize: none;
+  width: 100%;
+}
+
+.rewrite_button {
+  position: absolute;
+  right: 0px;
+  top: 10px;
+  background: rgba(0, 0, 80, 1);
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  display: inline;
+}
