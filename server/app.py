@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
-from content import synopsis_generate, topic_generate
+from content import synopsis_generate, topic_generate, plan_generate, synopsis_modify, first_generate
 import re
 
 app = Flask(__name__)
@@ -38,8 +38,46 @@ def synopsis_gen():
     req_data = request.get_json()
     print("Got data from client : ", req_data)
 
-    prompt, synopsis, degree, info = req_data['prompt'], req_data['synopsis'], req_data['degree'], req_data['info']
-    output = synopsis_generate(prompt, synopsis, degree, info)
+    if req_data['type'] == "re":
+        prompt, synopsis, degree, info = req_data['prompt'], req_data['synopsis'], req_data['degree'], req_data['info']
+        output = synopsis_modify(prompt, synopsis, degree, info)
+    if req_data['type'] == "first":
+        prompt, synopsis, degree, info = req_data['prompt'], req_data['synopsis'], req_data['degree'], req_data['info']
+        output = synopsis_generate(prompt, synopsis, degree, info)
+
+    response = {
+        "data": output['data'],
+        "total_tokens": output['total_tokens']
+    }
+    return jsonify(response)
+
+@app.route('/plan', methods=['POST'])
+@cross_origin()
+def plan_gen():
+    req_data = request.get_json()
+    print("Got data from client : ", req_data)
+
+    dump, keywords, planList = req_data['dump'], req_data['keywords'], req_data['planList']
+
+    print(planList, type(planList))
+
+    # output = plan_generate(dump=dump, keywords=keywords)
+
+    # response = {
+    #     "data": output['data'],
+    #     "total_tokens": output['total_tokens']
+    # }
+    # return jsonify(response)
+
+@app.route('/first', methods=['POST'])
+@cross_origin()
+def first_gen():
+    req_data = request.get_json()
+    print("Got data from client : ", req_data)
+
+    info = req_data['info']
+
+    output = first_generate(info=info)
 
     response = {
         "data": output['data'],
