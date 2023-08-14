@@ -21,7 +21,7 @@ const TextInput = ({
       onChange={(e) => onChange(e)}
       placeholder={placeholder}
       rows={row}
-    />
+    ></textarea>
   )
 }
 

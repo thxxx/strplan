@@ -1,6 +1,7 @@
 # This is for prompt Template.
 
-output_array_system_message = "Your output should be array format, start with [ and end with ]. Do not include any other text in your output except for the array."
+output_array_system_message = "Your output should be json. List, start with [ and end with ]. Do not include any other text in your output except for the array."
+output_json_system_message = "Your output should be json. Do not include any other text in your output except for the json."
 output_text_system_message = "Do not include any other text except for the required output text."
 
 def synopsis_prompt_gen(prompt, synopsis, degree, info):

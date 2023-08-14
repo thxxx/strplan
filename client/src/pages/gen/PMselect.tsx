@@ -40,7 +40,7 @@ const PMselect = () => {
 
     console.log('결과 : ', response)
 
-    const res = JSON.parse(response['data']['data'])
+    const res = response['data']['data']
 
     console.log('결과11 : ', res)
 

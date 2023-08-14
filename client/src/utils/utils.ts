@@ -10,11 +10,12 @@ export const get_info = (
   event: string
 ) => {
   let info = `
-        Below, inside """ is what a writer wrote for planning a novel
-        """
-        ${brainDump}
-        """
-      These are keywords for this novel : ${[
+      Below, inside """ is what a writer wrote for planning a novel
+      """
+      ${brainDump}
+      """
+      
+      These are important elements for this novel : ${[
         ...chosenKeywords.map((item: any) => item.description),
       ]}\n\n
     `

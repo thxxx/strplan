@@ -15,7 +15,7 @@ const FirstChapter = () => {
   const [desc, setDesc] = useState<string>('')
   const [end, setEnd] = useState<string>('')
   const [prompt, setPrompt] = useState<string>('')
-  const { background, intention, growth, ending, event, interest } =
+  const { background, intention, growth, ending, event, interest, setQuestions } =
     usePlantStore()
   const { brainDump, planList, chosenKeywords, synopsis } = useContentStore()
   const [keep, setKeep] = useState<string[]>([])
@@ -59,23 +59,58 @@ const FirstChapter = () => {
     }
   }
 
+  const seeNudge = async () => {
+    const valueList = planList.map((item) => item.value)
+
+    let info = get_info(
+      valueList,
+      brainDump,
+      chosenKeywords,
+      background,
+      intention,
+      growth,
+      ending,
+      interest,
+      event
+    )
+
+    const first = {
+      start:start,
+      event:fevent,
+      end:end,
+      desc: desc,
+    }
+
+    const body = {
+      info:info,
+      first:first,
+    }
+
+    const response = await axios.post(SERVER_IP + "/first_nudge", body)
+    
+    const output = response['data']['data']
+
+    setQuestions([...output.slice(0,3)])
+  }
+
   return (
     <div className={style2.questionContainer}>
       <TitleContainer
         title='1화 구성'
         buttonText='작성한 내용을 기반으로 생성하기'
+        seeNudge={seeNudge}
         onClick={generate}
       />
       <div className={style.sectionContainer}>
         <div className={style.sectionWrapper}>
           <div className={style.flexRow}>
             <span className={style.sectionLabel}>1화의 시작</span>
-            <button
+            {/* <button
               className={style3.reset_button}
               onClick={() => onKeep('start')}
-            >
+              >
               보존
-            </button>
+            </button> */}
           </div>
           <textarea
             className={style.section}
@@ -88,12 +123,12 @@ const FirstChapter = () => {
             <span className={style.sectionLabel}>
               1화에서 표현되어야 하는 내용
             </span>
-            <button
+            {/* <button
               className={style3.reset_button}
               onClick={() => onKeep('start')}
             >
               보존
-            </button>
+            </button> */}
           </div>
           <textarea
             className={style.section}
@@ -104,12 +139,12 @@ const FirstChapter = () => {
         <div className={style.sectionWrapper}>
           <div className={style.flexRow}>
             <span className={style.sectionLabel}>1화의 주요 사건</span>
-            <button
+            {/* <button
               className={style3.reset_button}
               onClick={() => onKeep('start')}
             >
               보존
-            </button>
+            </button> */}
           </div>
           <textarea
             className={style.section}
@@ -120,12 +155,12 @@ const FirstChapter = () => {
         <div className={style.sectionWrapper}>
           <div className={style.flexRow}>
             <span className={style.sectionLabel}>1화의 엔딩</span>
-            <button
+            {/* <button
               className={style3.reset_button}
               onClick={() => onKeep('start')}
             >
               보존
-            </button>
+            </button> */}
           </div>
           <textarea
             className={style.section}

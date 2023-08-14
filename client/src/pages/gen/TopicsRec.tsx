@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import style from './engine.module.css'
 import ReWriteInput from '@/components/ReWriteInput'
 import ListTable from '@/components/ListTable'
-import { SERVER_IP } from '@/utils/store'
+import { SERVER_IP, useContentStore } from '@/utils/store'
 import axios from 'axios'
 
 const TopicsRec = () => {
+  const { brainDump, chosenKeywords } = useContentStore();
   const [isTopicRec, setIsTopicRec] = useState<boolean>(false)
   const [prompt, setPrompt] = useState<string>('')
   const [genTopics, setGenTopics] = useState<string[]>([
@@ -18,31 +19,30 @@ const TopicsRec = () => {
 
   const reGenerate = async (typed: 're' | 'first') => {
     let response
-    setIsTopicRec(true)
 
     let body = {
       originalList: genTopics,
       prompt: prompt,
+      brainDump:brainDump,
+      chosenKeywords:[...chosenKeywords.map((item: any) => item.description)],
       info: '',
-      type: '',
+      type: typed,
     }
 
-    // if (typed !== 'first') {
-    //   body['type'] = 're'
-    //   response = await axios.post(SERVER_IP + '/topic', body)
-    // } else {
-    //   body['type'] = 'first'
-    //   response = await axios.post(SERVER_IP + '/topic', body)
-    // }
-    // if (response.status === 200) {
-    //   console.log('response 22: ', response)
-    //   const lists = JSON.parse(response['data']['data'])
-    //   console.log('response : ', lists)
-    //   setGenTopics(response['data']['data'])
-    //   setStoreTopics([...storeTopics, response['data']['data']])
-    //   setPrompt('')
-    //   setIsTopicRec(true)
-    // }
+    if (typed !== 'first') {
+      response = await axios.post(SERVER_IP + '/topic', body)
+    } else {
+      response = await axios.post(SERVER_IP + '/topic', body)
+    }
+    if (response.status === 200) {
+      console.log('response 22: ', response)
+      const lists = JSON.parse(response['data']['data'])
+      console.log('response : ', lists)
+      setGenTopics(response['data']['data'])
+      setStoreTopics([...storeTopics, response['data']['data']])
+      setPrompt('')
+      setIsTopicRec(true)
+    }
   }
 
   return (

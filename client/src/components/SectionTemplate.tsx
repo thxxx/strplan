@@ -35,11 +35,11 @@ const SectionTemplate = ({
         value={content}
         onChange={(e) => setContent(e.currentTarget.value)}
       />
-      <ReWriteInput
+      {/* <ReWriteInput
         value={prompt}
         onChange={(e) => setPrompt(e.currentTarget.value)}
         onClick={onClick}
-      />
+      /> */}
     </div>
   )
 }
