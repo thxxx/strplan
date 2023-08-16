@@ -3,6 +3,7 @@ import { create } from 'zustand'
 import { KeywordsType } from './keywords'
 
 type PlantState = {
+  loading:boolean
   questions: string[]
   background: string
   intention: string
@@ -10,6 +11,7 @@ type PlantState = {
   ending: string
   interest: string
   event: string
+  setLoading: (value: boolean) => void
   setQuestions: (value: string[]) => void
   setBackground: (value: string) => void
   setIntention: (value: string) => void
@@ -19,6 +21,7 @@ type PlantState = {
   setEvent: (value: string) => void
 }
 export const usePlantStore = create<PlantState>((set) => ({
+  loading:false,
   questions: [],
   background: '',
   intention: '',
@@ -26,6 +29,9 @@ export const usePlantStore = create<PlantState>((set) => ({
   ending: '',
   interest: '',
   event: '',
+  setLoading: (value: boolean) => {
+    set(() => ({ loading: value }))
+  },
   setQuestions: (value: string[]) => {
     set(() => ({ questions: value }))
   },

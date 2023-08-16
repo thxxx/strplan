@@ -16,13 +16,26 @@ const Character = () => {
   const [prompt, setPrompt] = useState<string>('')
 
   const generate = async () => {
-    const body = {
-      dump: brainDump,
-      keywords: [...chosenKeywords.map((item) => item.description)],
-      synopsis: synopsis,
-      planList,
-    }
+    const valueList = planList.map((item) => item.value)
 
+    let info = get_info(
+      valueList,
+      brainDump,
+      chosenKeywords,
+      background,
+      intention,
+      growth,
+      ending,
+      interest,
+      event
+    )
+
+    info += `\n\n Synopsis(plot summary) of this novel : ${synopsis}`
+
+    const body = {
+      info:info,
+    }
+    
     const response = await axios.post(SERVER_IP + '/char', body)
     const output = response['data']['data']
  

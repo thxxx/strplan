@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
-from content import synopsis_generate, topic_generate, plan_generate, first_generate, character_generate, character_nudge_generate, synop_nudge_generate, first_nudge_generate
+from content import synopsis_generate, topic_generate, plan_generate, first_generate, character_generate, character_nudge_generate, synop_nudge_generate, first_nudge_generate, brain_nudge_generate, brain_generate
 import re
 
 app = Flask(__name__)
@@ -13,6 +13,36 @@ def hello_world():
     req_data = request.get_json()
     print("Got data from client : ", req_data)
     return jsonify("")
+
+
+@app.route('/brain_ask', methods=['POST'])
+@cross_origin()
+def brain_gen():
+    req_data = request.get_json()
+    print("Got data from client : ", req_data)
+
+    output = brain_generate(info=req_data['info'], brainDump=req_data['brainDump'], prompt=req_data['prompt'])
+
+    response = {
+        "data": output['data'],
+        "total_tokens": output['total_tokens']
+    }
+    return jsonify(response)
+
+
+@app.route('/brain_nudge', methods=['POST'])
+@cross_origin()
+def brain_nudge_gen():
+    req_data = request.get_json()
+    print("Got data from client : ", req_data)
+
+    output = brain_nudge_generate(info=req_data['info'], brainDump=req_data['brainDump'])
+
+    response = {
+        "data": output['data'],
+        "total_tokens": output['total_tokens']
+    }
+    return jsonify(response)
 
 
 @app.route('/topic', methods=['POST'])

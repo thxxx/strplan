@@ -55,6 +55,7 @@ def topic_generate(originalList, prompt, type, info, chosenKeywords, brainDump):
 def synopsis_generate(prompt, synopsis, info, type):
     synop_prompt = f"""
         You are a best-seller novel writer having published highest-grossing books. Do not include any other text except for the plot.
+        Write a plot summary.
         Below, inside ``` is a information of novel.
         ```
         {info}
@@ -62,33 +63,38 @@ def synopsis_generate(prompt, synopsis, info, type):
 
         Please make unique and creative plot of a Web novel that can be used when you write a Webnovel based on the above information.
         <Instructions>
-        - Young readers prefer these keywords. Just keep that in mind. [\"The main character who happens to get a very good opportunity\", \"A very powerful main character from the start\", \"provocative, high-tension story\"]
         - plot is a summary of whole story of a web novel including the prologue and ending.
         - It would be good to add some unique and very creative stories.
         - Please make unique and creative plot of a Web novel that can be used when you write a Webnovel based on the above information.
         - Feel free to think outside the box. You can combine several unique elements.
     """
     if type == "re":
-        synop_prompt += f"""
-            Below, inside ''' is current synopsis of a novel.
+        synop_prompt = f"""
+            You are a best-seller novel writer having published highest-grossing books. Do not include any other text in your output except for the plot.
+            Below, inside ``` is a information of novel.
+            ```
+            {info}
+            ```
+
+            Below, inside ''' is current synopsis of a novel written by a writer.
             ORIGINAL_SYNOPSIS : '''
             {synopsis}
             '''
 
-            In the original synopsis, between [ and ] is a instruction for what should be generated in that place.
+            In the above original synopsis, a text between [ and ] is a instruction for what should be generated in that place.
         """
         if prompt:
-            synop_prompt += """
+            synop_prompt += f"""
             \n\n
-                Modify above synopsis by following INSTRUCTION below
+                Modify above synopsis(plot summary) by following INSTRUCTION below and return plot summary.
                 INSTRUCTION: {prompt}
             """
 
 
     output = generate(synop_prompt, systemMessage=output_text_system_message, model="chatgpt")
+    output['data'] = translate(output['data'])
 
-    return translate(output)
-
+    return output
 
 def plan_generate(dump, keywords):
     plan_prompt = f"""
@@ -291,4 +297,32 @@ def first_nudge_generate(info:str, first:str):
     ]
     output['data'] = aa
     
+    return output
+
+def brain_nudge_generate(info:str, brainDump:str):
+    bn_prompt = f"""
+        You are a best-seller writer having published highest-grossing books.
+        You are a assistant for writers. Your task is giving them good nudge questions, nudge or guide to help them. Is stimulates the creativity of writers.
+        Do not include any other text except for the json.
+
+        """
+    
+def brain_generate(info:str, brainDump:str, prompt:str):
+    b_prompt = f"""
+        You are a best-seller writer having published highest-grossing books.
+        Your task is helping a writer who is trying to write a novel.
+
+        Below, inside ``` is what a writer is writing now.
+        INFORMATION : ```
+        {brainDump}
+        ```
+
+        Based on the above information, follow the below instruction.
+        INSTRUCTION: {prompt}
+    """
+
+    output = generate(b_prompt, systemMessage=output_text_system_message, model="chatgpt")
+    output['data'] = re.sub(r'\n', '<br />', output['data'])
+    output['data'] = translate(output['data'])
+
     return output

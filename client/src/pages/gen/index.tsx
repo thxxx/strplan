@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useEffect, useState } from 'react'
 import style from './engine.module.css'
 import Brain from './Brain'
@@ -12,14 +14,13 @@ import { questions_corpus } from '@/utils/questions'
 import ReWriteInput from '@/components/ReWriteInput'
 import { usePlantStore } from '@/utils/planStore'
 
-const gen = () => {
-  const {questions, setQuestions} = usePlantStore()
+const Gem = () => {
+  const {questions, loading, setLoading, setQuestions} = usePlantStore()
   const [prompt, setPrompt] = useState<string>('')
 
   useEffect(() => {
     const randQ = getRandomElements(questions_corpus, 3)
     setQuestions(randQ)
-    console.log(randQ)
   }, [])
 
   const generate = async () => {}
@@ -46,6 +47,9 @@ const gen = () => {
 
   return (
     <main className={style.main}>
+      {
+        loading && <div className={style.loadingBack}><p>생성 로딩중...</p><p>15초 이상 소요된다면 에러일 확률이 높습니다.</p><div><button onClick={() => setLoading(false)}>닫기</button></div></div>
+      }
       <div className={style.innerMain} style={{ position: 'relative' }}>
         <h2>스토리 기획 도우미</h2>
         {/* 좋은 질문을 던져주기 */}
@@ -73,7 +77,7 @@ const gen = () => {
           }}
         >
           {questions.slice(0, 3).map((item) => {
-            return <div className={style.question}>{item}</div>
+            return <div className={style.question} key={item}>{item}</div>
           })}
           <button className={style.reset_button} onClick={() => {
             const randQ = getRandomElements(questions_corpus, 3)
@@ -113,4 +117,4 @@ const gen = () => {
   )
 }
 
-export default gen
+export default Gem
