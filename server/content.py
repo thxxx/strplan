@@ -3,7 +3,6 @@ from prompt import synopsis_prompt_gen, output_array_system_message, output_text
 from setting import translate
 import json
 import re
-import ast
 
 def topic_generate(originalList, prompt, type, info, chosenKeywords, brainDump):
     if type == "re":
